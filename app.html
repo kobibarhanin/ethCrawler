@@ -6,6 +6,10 @@
       type="text/javascript"
       src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"
     ></script>
+    <script
+    type="text/javascript"
+    src="./config.js"
+    ></script>
     <style type="text/css">
       #mynetwork {
         width: 600px;
@@ -24,27 +28,34 @@
         return rv;
       }
 
-      (async () => {
-        // source = '0x4FA4F16d2bdD2A574B59d5756aAA2B0e6B014579';
-        source = '0xcce17f9364ed26410c2891a89c06c8e14b197d9f';
+      MAX_RESULTS = 30;
+      source = '0xcce17f9364ed26410c2891a89c06c8e14b197d9f';
+
+      async function populate(source) {
         rv = await getRelatedAddresses(source);
         
+        eff_rv = rv.result.slice(0, MAX_RESULTS);
+
         nodesSet = new Set();   
-        rv.result.forEach((item, index)=>{
-          nodesSet.add(item.from.slice(0,5));
-          nodesSet.add(item.to.slice(0,5));
+        eff_rv.forEach((item, index)=>{
+          nodesSet.add(item.from);
+          nodesSet.add(item.to);
         })
 
         nodesData = []
         nodesSet.forEach((item, index)=>{
-          nodesData.push({ id: item, label: item.slice(0,5)})
+          nlabel = item.slice(0,5);
+          if (known_addresses[item] !== undefined) {
+            nlabel = known_addresses[item];
+          }
+          nodesData.push({ id: item, label: nlabel})
         })
 
         var nodes = new vis.DataSet(nodesData);
 
         edgesData = []
-        rv.result.forEach((item, index)=>{
-          edgesData.push({ from:item.from.slice(0,5), to: item.to.slice(0,5), arrowhead:'normal'});
+        eff_rv.forEach((item, index)=>{
+          edgesData.push({ from:item.from, to: item.to, arrowhead:'normal'});
         })
 
         // create an array with edges
@@ -59,11 +70,24 @@
         var options = {
           edges: {
             arrows: 'to' 
+          },
+          layout: {
+            hierarchical: {
+              direction: 'UD',
+            }
           }
         };
         var network = new vis.Network(container, data, options);
 
-      })()
+        // to create click events
+        network.on("click", function (params) {
+          console.log(params);
+          populate(params.nodes[0]);
+        });
+
+      }
+
+      populate(source);
 
     </script>
   </body>
