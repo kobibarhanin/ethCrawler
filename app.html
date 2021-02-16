@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Network</title>
+    <script
+      type="text/javascript"
+      src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"
+    ></script>
+    <style type="text/css">
+      #mynetwork {
+        width: 600px;
+        height: 400px;
+        border: 1px solid lightgray;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="mynetwork"></div>
+    <script type="text/javascript">
+
+      async function getRelatedAddresses(address) {
+        res = await fetch(`https://api.etherscan.io/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&sort=asc&apikey=GQHBWTJMDTGA39AJTUJ8Y9RAM7ZGIKFIKS`)
+        rv = await res.json();
+        return rv;
+      }
+
+      (async () => {
+        // source = '0x4FA4F16d2bdD2A574B59d5756aAA2B0e6B014579';
+        source = '0xcce17f9364ed26410c2891a89c06c8e14b197d9f';
+        rv = await getRelatedAddresses(source);
+        
+        nodesSet = new Set();   
+        rv.result.forEach((item, index)=>{
+          nodesSet.add(item.from.slice(0,5));
+          nodesSet.add(item.to.slice(0,5));
+        })
+
+        nodesData = []
+        nodesSet.forEach((item, index)=>{
+          nodesData.push({ id: item, label: item.slice(0,5)})
+        })
+
+        var nodes = new vis.DataSet(nodesData);
+
+        edgesData = []
+        rv.result.forEach((item, index)=>{
+          edgesData.push({ from:item.from.slice(0,5), to: item.to.slice(0,5), arrowhead:'normal'});
+        })
+
+        // create an array with edges
+        var edges = new vis.DataSet(edgesData);
+
+        // create a network
+        var container = document.getElementById("mynetwork");
+        var data = {
+          nodes: nodes,
+          edges: edges,
+        };
+        var options = {
+          edges: {
+            arrows: 'to' 
+          }
+        };
+        var network = new vis.Network(container, data, options);
+
+      })()
+
+    </script>
+  </body>
+</html>
