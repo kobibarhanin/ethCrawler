@@ -1,94 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Network</title>
-    <script
-      type="text/javascript"
-      src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"
-    ></script>
-    <script
-    type="text/javascript"
-    src="./config.js"
-    ></script>
-    <style type="text/css">
-      #mynetwork {
-        width: 600px;
-        height: 400px;
-        border: 1px solid lightgray;
-      }
-    </style>
+    <title>EthCrawler</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css">
+    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
   </head>
   <body>
-    <div id="mynetwork"></div>
-    <script type="text/javascript">
-
-      async function getRelatedAddresses(address) {
-        res = await fetch(`https://api.etherscan.io/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&sort=asc&apikey=${token}`)
-        rv = await res.json();
-        return rv;
-      }
-
-      MAX_RESULTS = 30;
-      source = default_source;
-
-      async function populate(source) {
-        rv = await getRelatedAddresses(source);
-        
-        eff_rv = rv.result.slice(0, MAX_RESULTS);
-
-        nodesSet = new Set();   
-        eff_rv.forEach((item, index)=>{
-          nodesSet.add(item.from);
-          nodesSet.add(item.to);
-        })
-
-        nodesData = []
-        nodesSet.forEach((item, index)=>{
-          nlabel = item.slice(0,5);
-          if (known_addresses[item] !== undefined) {
-            nlabel = known_addresses[item];
-          }
-          nodesData.push({ id: item, label: nlabel})
-        })
-
-        var nodes = new vis.DataSet(nodesData);
-
-        edgesData = []
-        eff_rv.forEach((item, index)=>{
-          edgesData.push({ from:item.from, to: item.to, arrowhead:'normal'});
-        })
-
-        // create an array with edges
-        var edges = new vis.DataSet(edgesData);
-
-        // create a network
-        var container = document.getElementById("mynetwork");
-        var data = {
-          nodes: nodes,
-          edges: edges,
-        };
-        var options = {
-          edges: {
-            arrows: 'to' 
-          },
-          layout: {
-            hierarchical: {
-              direction: 'UD',
-            }
-          }
-        };
-        var network = new vis.Network(container, data, options);
-
-        // to create click events
-        network.on("click", function (params) {
-          console.log(params);
-          populate(params.nodes[0]);
-        });
-
-      }
-
-      populate(source);
-
-    </script>
+    <div class="ui container" style="text-align: center; width: 90%; background-color: #ffffff; border-radius: 25px; margin: 5%">
+      <h2 class="ui container">
+        <h2>EthCrawler</h2>
+        <form class="ui form">
+          <div class="inline fields">
+            <div class="field" style="text-align: left;">
+              <label>Source</label>
+              <input type="text" id="source_address" name="selected_source" placeholder="Source address"">
+            </div>
+            <div class="field">
+              <button id="source_button" class="ui button" type="submit">Submit</button>
+            </div>        
+          </div>
+        </form>
+        <div id="mynetwork"  style="width: 100%; height: 700px; border: 1px solid lightgray;"></div>
+      </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.js"></script>
+    <script type="text/javascript" src="./config.js"></script>
+    <script type="text/javascript" src="./app.js"></script>
   </body>
 </html>
