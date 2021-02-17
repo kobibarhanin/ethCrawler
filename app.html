@@ -4,24 +4,20 @@
     <title>EthCrawler</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css">
     <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <!-- <style type="text/css">
+      .vis-network {overflow:visible;}
+    </style> -->
   </head>
   <body>
-    <div class="ui container" style="text-align: center; width: 90%; background-color: #ffffff; border-radius: 25px; margin: 5%">
-      <h2 class="ui container">
-        <h2>EthCrawler</h2>
-        <form class="ui form">
-          <div class="inline fields">
-            <div class="field" style="text-align: left;">
-              <label>Source</label>
-              <input type="text" id="source_address" name="selected_source" placeholder="Source address"">
-            </div>
-            <div class="field">
-              <button id="source_button" class="ui button" type="submit">Submit</button>
-            </div>        
-          </div>
-        </form>
-        <div id="mynetwork"  style="width: 100%; height: 700px; border: 1px solid lightgray;"></div>
-      </div>
+    <div class="ui container" style="text-align: center; width: 90%; background-color: #ffffff; border-radius: 25px; padding: 5%">
+      <h2>EthCrawler</h2>
+      <form id="source_form" class="ui form" style="padding-bottom: 1%">
+        <div class="ui action fluid input"> 
+          <input type="text" id="source_address" name="selected_source" placeholder="Source address"">
+          <button type="submit" class="ui submit button">Search</button>
+        </div>
+      </form>
+      <div id="mynetwork"  style="width: 100%; height: 700px; border: 1px solid lightgray; background-color: #222222;"></div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.js"></script>

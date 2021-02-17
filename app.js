@@ -21,18 +21,23 @@ async function populate(source) {
 
     nodesData = []
     nodesSet.forEach((item, index)=>{
-      nlabel = item.slice(0,5);
+      label = item.slice(0,5);
+      image = ''
       if (known_addresses[item] !== undefined) {
-        nlabel = known_addresses[item];
+        label = known_addresses[item]['title'];
+        type = known_addresses[item]['type'];
+        image = `./assets/${type}.png`
+      } else {
+        image = `./assets/unknown.png`        
       }
-      nodesData.push({ id: item, label: nlabel})
+      nodesData.push({ id: item, label: label, title: item, image: image, shape: 'image'})
     })
 
     var nodes = new vis.DataSet(nodesData);
 
     edgesData = []
     eff_rv.forEach((item, index)=>{
-      edgesData.push({ from:item.from, to: item.to, arrowhead:'normal'});
+      edgesData.push({ from:item.from, to: item.to, arrowhead:'normal', title: item.hash});
     })
 
     // create an array with edges
@@ -45,13 +50,29 @@ async function populate(source) {
       edges: edges,
     };
     var options = {
+      nodes: {
+        // shape: 'box',
+        font: { color: "#eeeeee" },
+      },
+      interaction: { hover: true },
+      // manipulation: { enabled: true },
+      physics: {
+        barnesHut: { gravitationalConstant: -30000 },
+        stabilization: { iterations: 2500 },
+      },
       edges: {
-        arrows: 'to' 
+        length: 300,
+        arrows: 'middle' 
+        // arrows: 'to',
+        // arrowStrikethrough: false,
       },
       layout: {
-        hierarchical: {
-          direction: 'UD',
-        }
+        randomSeed: undefined,
+        improvedLayout:true,
+        clusterThreshold: 150,
+        // hierarchical: {
+        //   direction: 'UD',
+        // }
       }
     };
     var network = new vis.Network(container, data, options);
@@ -59,11 +80,14 @@ async function populate(source) {
     // to create click events
     network.on("click", function (params) {
       console.log(params);
-      populate(params.nodes[0]);
+      if (params.nodes.length > 0){
+        populate(params.nodes[0]);
+      }
     });
+
 }
 
-$("#source_button").click(function(){
+$("#source_form").submit(function(){
     event.preventDefault();
     var address = $("#source_address").val();
     populate(address);
