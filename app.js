@@ -10,8 +10,10 @@ async function getRelatedAddresses(address) {
 async function populate(source) {
 
     rv = await getRelatedAddresses(source);
-    
     eff_rv = rv.result.slice(0, MAX_RESULTS);
+
+    // populate the textarea
+    $("#context_data").val(JSON.stringify(rv.result, null, 4))
 
     nodesSet = new Set();   
     eff_rv.forEach((item, index)=>{

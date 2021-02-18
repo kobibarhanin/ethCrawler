@@ -2,22 +2,30 @@
 <html lang="en">
   <head>
     <title>EthCrawler</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" integrity="sha512-8bHTC73gkZ7rZ7vpqUQThUDhqcNFyYi2xgDgPDHc+GXVGHXq+xPjynxIopALmOPqzo9JZj0k6OqqewdGO3EsrQ==" crossorigin="anonymous" />
     <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
-    <!-- <style type="text/css">
-      .vis-network {overflow:visible;}
-    </style> -->
   </head>
   <body>
     <div class="ui container" style="text-align: center; width: 90%; background-color: #ffffff; border-radius: 25px; padding: 5%">
-      <h2>EthCrawler</h2>
+      <!-- <h1 class="ui huge header">EthCrawler</h1> -->
+      <h2 class="ui center aligned icon header">
+        <i class="circular ethereum icon"></i>
+        EthCrawler
+      </h2>
       <form id="source_form" class="ui form" style="padding-bottom: 1%">
         <div class="ui action fluid input"> 
           <input type="text" id="source_address" name="selected_source" placeholder="Source address"">
           <button type="submit" class="ui submit button">Search</button>
         </div>
       </form>
-      <div id="mynetwork"  style="width: 100%; height: 700px; border: 1px solid lightgray; background-color: #222222;"></div>
+      <div class="ui grid">
+        <div class="ten wide column">      
+          <div id="mynetwork"  style="width: 100%; height: 700px; border: 1px solid lightgray; background-color: #282828;"></div>
+        </div>
+        <div class="six wide column">
+          <textarea disabled id="context_data" style="resize: none; background-color: #282828; color: #2fb403; width: 100%; height:700px"></textarea>
+        </div>
+    </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.js"></script>
