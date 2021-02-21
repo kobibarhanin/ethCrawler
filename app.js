@@ -33,19 +33,19 @@ async function populate(source, tx=null) {
       $("#info_table").append("<tr><td>Address</td><td>" + source + "</td></tr>");
       $("#info_table").append("<tr><td>Balance</td><td>" + parseInt(balance.result)/1000000000000000000 + "</td></tr>");  
       $("#context_data").val(JSON.stringify(txs, null, 4))
+      $("#txs_table").empty();
       for (var i = 0; i < eff_rv.length; i++){
             $("#txs_table").append(`<tr><td>${eff_rv[i]['hash']}</td></tr>`);  
       }
     } else {
       $("#address_display").hide()
       $("#tx_display").show()
-
-
+      $("#tx_table").empty();
       for (var i = 0; i < eff_rv.length; i++){
         tx_data = eff_rv[i];
         if (tx_data['hash'] == tx){
           for (var key in tx_data){
-            $("#tx_table").append(`<tr><td>${key}</td><td>${tx_data[key]}</td></tr>`);  
+            $("#tx_table").append(`<tr><td class="four wide">${key}</td><td>${tx_data[key]}</td></tr>`);  
           }
           break;
         }
