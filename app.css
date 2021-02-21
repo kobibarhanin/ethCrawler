@@ -1,0 +1,14 @@
+/* html, body
+{
+    height: 100%;
+} */
+
+.graph {
+    width: 100%; 
+    order: 1px solid lightgray;
+    background-color: #282828;
+    /* height: 700px;
+    vertical-align: middle;
+    text-align: center;
+    line-height: 100px; */
+}

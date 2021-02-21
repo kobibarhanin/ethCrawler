@@ -3,11 +3,11 @@
   <head>
     <title>EthCrawler</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" integrity="sha512-8bHTC73gkZ7rZ7vpqUQThUDhqcNFyYi2xgDgPDHc+GXVGHXq+xPjynxIopALmOPqzo9JZj0k6OqqewdGO3EsrQ==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="./app.css"/>
     <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
   </head>
   <body>
     <div class="ui container" style="text-align: center; width: 90%; background-color: #ffffff; border-radius: 25px; padding: 5%">
-      <!-- <h1 class="ui huge header">EthCrawler</h1> -->
       <h2 class="ui center aligned icon header">
         <i class="circular ethereum icon"></i>
         EthCrawler
@@ -20,11 +20,30 @@
       </form>
       <div class="ui grid">
         <div class="ten wide column">      
-          <div id="mynetwork"  style="width: 100%; height: 700px; border: 1px solid lightgray; background-color: #282828;"></div>
+          <div id="mynetwork" class='graph' ></div>
         </div>
-        <div class="six wide column">
-          <textarea disabled id="context_data" style="resize: none; background-color: #282828; color: #2fb403; width: 100%; height:700px"></textarea>
+        <div class="six wide column" style="text-align: left;">
+          <div id="address_display">
+          <h3>Address information:</h3>
+          <table id="info_table" class="ui fixed striped celled table"></table>
+          <h3>Transactions:</h3>
+          <table id="txs_table" class="ui fixed striped celled table" style="overflow-x:scroll;"> </table>
+          <!-- <textarea disabled id="context_data" style="resize: none; background-color: #282828; color: #2fb403; width: 100%; height:100%"></textarea> -->
+          </div>
+          <div id="tx_display">
+            <h3>Transaction information:</h3>
+            <table id="tx_table" class="ui fixed striped celled table">
+              <thead>
+                <tr>
+                  <th class="four wide">Metric</th>
+                  <th>Data</th>
+                </tr></thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
         </div>
+
     </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
