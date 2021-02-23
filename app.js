@@ -1,29 +1,21 @@
-var gparams = null;
-var network = null;
-MAX_RESULTS = 30;
-source = default_source;
+// from config.js: KNOWN_ADDRESSES, DEFAULT_SOURCE, TOKEN, MAX_RESULTS 
 
 
-async function getRelatedTxs(address) {
-    res = await fetch(`https://api.etherscan.io/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&sort=asc&apikey=${token}`)
-    rv = await res.json();
-    return rv;
-}
-
-async function getBalance(address) {
-  res = await fetch(`https://api.etherscan.io/api?module=account&action=balance&address=${address}&sort=asc&apikey=${token}`)
+async function getFromEtherScan(action, address) {
+  res = await fetch(`https://api.etherscan.io/api?module=account&sort=asc&apikey=${TOKEN}&action=${action}&address=${address}`)
   rv = await res.json();
   return rv;
 }
 
+
 async function populate(source, tx=null) {
 
-    rv = await getRelatedTxs(source);
+    rv = await getFromEtherScan('txlist',source);
     txs = rv.result;
     eff_rv = rv.result.slice(0, MAX_RESULTS);
 
     
-    balance = await getBalance(source);
+    balance = await getFromEtherScan('balance',source);
 
     $("#info_table").empty();
     if (tx == null){
@@ -62,9 +54,9 @@ async function populate(source, tx=null) {
     nodesSet.forEach((item, index)=>{
       label = item.slice(0,5);
       image = ''
-      if (known_addresses[item] !== undefined) {
-        label = known_addresses[item]['title'];
-        type = known_addresses[item]['type'];
+      if (KNOWN_ADDRESSES[item] !== undefined) {
+        label = KNOWN_ADDRESSES[item]['title'];
+        type = KNOWN_ADDRESSES[item]['type'];
         image = `./assets/${type}.png`
       } else {
         image = `./assets/unknown.png`        
@@ -118,7 +110,6 @@ async function populate(source, tx=null) {
     // to create click events
     network.on("click", function (params) {
       console.log(params);
-      gparams = params;
       if (params.nodes.length > 0){
         source = params.nodes[0];
         populate(params.nodes[0]);
@@ -130,11 +121,17 @@ async function populate(source, tx=null) {
 
 }
 
-$("#source_form").submit(function(){
+
+$("document").ready(function(){
+  
+  $("#source_form").submit(function(){
     event.preventDefault();
     var address = $("#source_address").val();
     populate(address);
+  });
+
+  populate(DEFAULT_SOURCE);
+
 });
-
-
-populate(default_source);
+  
+  
