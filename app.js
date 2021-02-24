@@ -17,13 +17,13 @@ async function populate(source, tx=null) {
     
     balance = await getFromEtherScan('balance',source);
 
-    $("#info_table").empty();
+    $("#address_table").empty();
     if (tx == null){
       $("#address_display").show()
       $("#tx_display").hide()
 
-      $("#info_table").append("<tr><td>Address</td><td>" + source + "</td></tr>");
-      $("#info_table").append("<tr><td>Balance</td><td>" + parseInt(balance.result)/1000000000000000000 + "</td></tr>");  
+      $("#address_table").append("<tr><td>Address</td><td>" + source + "</td></tr>");
+      $("#address_table").append("<tr><td>Balance</td><td>" + parseInt(balance.result)/1000000000000000000 + "</td></tr>");  
       $("#context_data").val(JSON.stringify(txs, null, 4))
       $("#txs_table").empty();
       for (var i = 0; i < eff_rv.length; i++){

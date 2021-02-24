@@ -2,10 +2,10 @@
 <html lang="en">
   <head>
     <title>EthCrawler</title>
-    <link type="text/css" rel="stylesheet" href="./assets/semantic/dist/semantic.min.css"/>
-    <script type="text/javascript" src="./assets/semantic/dist/semantic.min.js"></script>
-    <script type="text/javascript" src="./assets/jquery.min.js"></script>
-    <script type="text/javascript" src="./assets/vis-network.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="./node_modules/semantic/dist/semantic.min.css"/>
+    <script type="text/javascript" src="./node_modules/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="./node_modules/semantic/dist/semantic.min.js"></script>
+    <script type="text/javascript" src="./node_modules/vis-network/dist/vis-network.min.js"></script>
     <script type="text/javascript" src="./config.js"></script>
     <script type="text/javascript" src="./app.js"></script>
     <link rel="stylesheet" href="./app.css"/>
@@ -28,17 +28,17 @@
         </div>
         <div class="six wide column" style="text-align: left;">
           <div id="address_display">
-          <h3>Address information:</h3>
-          <table id="info_table" class="ui fixed striped celled table"></table>
-          <h3>Transactions:</h3>
-          <table id="txs_table" class="ui fixed striped celled table" style="overflow-x:scroll;"> </table>
+            <h3>Address information:</h3>
+            <table id="address_table" class="ui fixed striped celled table"></table>
+            <h3>Transactions:</h3>
+            <table id="txs_table" class="ui fixed striped celled table"> </table>
           </div>
           <div id="tx_display">
             <h3>Transaction information:</h3>
             <table id="tx_table" class="ui fixed striped celled table"></table>
           </div>
         </div>
-    </div>
+      </div>
     </div>
   </body>
 </html>
