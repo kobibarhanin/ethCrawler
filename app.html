@@ -11,22 +11,22 @@
     <link rel="stylesheet" href="./app.css"/>
   </head>
   <body>
-    <div class="ui container" style="text-align: center; width: 90%; background-color: #ffffff; border-radius: 25px; padding: 5%">
+    <div class="ui container">
       <h2 class="ui center aligned icon header">
         <i class="circular ethereum icon"></i>
         EthCrawler
       </h2>
       <form id="source_form" class="ui form" style="padding-bottom: 1%">
         <div class="ui action fluid input"> 
-          <input type="text" id="source_address" name="selected_source" placeholder="Source address"">
+          <input type="text" id="source_address" name="selected_source" placeholder="Source address">
           <button type="submit" class="ui submit button">Search</button>
         </div>
       </form>
       <div class="ui grid">
         <div class="ten wide column">      
-          <div id="mynetwork" class='graph' ></div>
+          <div id="network_graph" class='graph' ></div>
         </div>
-        <div class="six wide column" style="text-align: left;">
+        <div id="info_display" class="six wide column" style="text-align: left;">
           <div id="address_display">
             <h3>Address information:</h3>
             <table id="address_table" class="ui fixed striped celled table"></table>

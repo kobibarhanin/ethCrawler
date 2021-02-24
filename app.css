@@ -1,7 +1,11 @@
-/* html, body
-{
-    height: 100%;
-} */
+
+body {
+    text-align: center; 
+    width: 90%; 
+    background-color: #ffffff; 
+    border-radius: 25px; 
+    padding: 5%
+}
 
 .graph {
     width: 100%; 
