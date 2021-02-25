@@ -1,5 +1,6 @@
 // from config.js: KNOWN_ADDRESSES, DEFAULT_SOURCE, TOKEN, MAX_RESULTS 
 address = DEFAULT_ADDRESS
+total_txs = [];
 
 // verify token is valid
 ready = true;
@@ -57,6 +58,15 @@ function wei_to_eth(wei){
   return wei/1000000000000000000;
 }
 
+function chunkify(array){
+  var i,j,chunk = MAX_RESULTS;
+  rv = [];
+  for (i=0,j=array.length; i<j; i+=chunk) {
+    rv.push(array.slice(i,i+chunk));
+  }
+  return rv
+}
+
 async function update_table(source, balance, txs, tx){
   if (tx == null){
     toggle_info_display("address_display", "tx_display");
@@ -94,7 +104,10 @@ async function generate_graph(nodes, edges){
     };
     var options = {
       nodes: {font: { color: "#eeeeee" }},
-      interaction: { hover: true },
+      interaction: { 
+        hover: true,     
+        navigationButtons: true,
+      },
       physics: {
         barnesHut: { gravitationalConstant: -30000 },
         stabilization: { iterations: 2500 },
@@ -134,6 +147,11 @@ async function populate(address, tx=null) {
 
     txs_call = await getFromEtherScan('txlist',address);
     txs = txs_call.result.slice(0, MAX_RESULTS);
+    total_txs = chunkify(txs_call.result);
+    // TODO - continue here the results paging issue
+    if (total_txs.length > 1){
+      $("#more_results").show();
+    }
     
     balance_call = await getFromEtherScan('balance',address);
     balance = balance_call.result;
@@ -178,6 +196,7 @@ jQuery(function(){
     if (address === ''){
       $("#info_display").hide();
     } else{
+      $("#more_results").hide();
       populate(address);
     }
   }
